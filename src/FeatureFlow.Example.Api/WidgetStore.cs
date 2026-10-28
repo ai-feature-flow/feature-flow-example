@@ -35,4 +35,13 @@ public sealed class WidgetStore
             return widget;
         }
     }
+
+    /// <summary>The number of widgets currently held by the store.</summary>
+    public int Count()
+    {
+        lock (_gate)
+        {
+            return _widgets.Count;
+        }
+    }
 }
