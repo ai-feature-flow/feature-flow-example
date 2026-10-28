@@ -1,0 +1,37 @@
+name: integration
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: Commit to test
+        required: true
+        type: string
+      idempotency_key:
+        description: Engine idempotency key
+        required: false
+        type: string
+  push:
+    branches: [ main, "ff/**" ]
+
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.commit_sha || github.sha }}
+
+      - name: Run integration tier (Docker + Postgres)
+        run: docker compose -f compose.integration.yaml up --abort-on-container-exit --exit-code-from integration-tests
+
+      - name: Collect logs
+        if: always()
+        run: docker compose -f compose.integration.yaml logs > integration.log
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-logs
+          path: integration.log

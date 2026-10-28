@@ -1,0 +1,22 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ff
+      POSTGRES_PASSWORD: ff
+      POSTGRES_DB: ff_example
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ff -d ff_example" ]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  integration-tests:
+    build:
+      context: .
+      dockerfile: tests/FeatureFlow.Example.Api.IntegrationTests/Dockerfile
+    environment:
+      ConnectionStrings__Default: "Host=db;Port=5432;Username=ff;Password=ff;Database=ff_example"
+    depends_on:
+      db:
+        condition: service_healthy

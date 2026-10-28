@@ -1,0 +1,38 @@
+apiVersion: feature-flow/v1
+kind: Repository
+
+environment:
+  image: mcr.microsoft.com/dotnet/sdk:9.0
+  os: linux
+  docker: false
+
+setup:
+  commands: [ "dotnet restore" ]
+
+testTiers:
+  - name: unit
+    commands: [ "dotnet test tests/FeatureFlow.Example.Api.UnitTests --filter Category=unit" ]
+    target: sandbox
+
+  - name: integration
+    commands: [ "docker compose -f compose.integration.yaml up --abort-on-container-exit --exit-code-from integration-tests" ]
+    target: ci
+    ci: { instance: github-actions, workflow: integration.yml }
+
+staticAnalysis:
+  analyser: dotnet-format
+  failOn: newIssues
+
+ci:
+  mapping:
+    unit:        { instance: github-actions, workflow: unit.yml }
+    integration: { instance: github-actions, workflow: integration.yml }
+  queueBuilds: true
+
+branches:
+  default: main
+  integrationPrefix: ff/epic/
+  ticketPrefix: ff/ticket/
+
+merge:
+  method: squash
