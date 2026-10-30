@@ -26,6 +26,6 @@ app.MapPost("/widgets", (WidgetCreateRequest request, WidgetStore store) =>
 
 app.Run();
 
-public record Widget(int Id, string Name);
+public record Widget(int Id, string Name, DateTimeOffset CreatedAt);
 
 public record WidgetCreateRequest(string Name);
