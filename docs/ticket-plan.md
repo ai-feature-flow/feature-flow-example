@@ -1,19 +1,3 @@
-## Design
-
-`public int Count()` returns `_widgets.Count`.
-It belongs on WidgetStore because the store owns the collection and is the
-only type that may read it under its lock.
-
-# Ticket plan
-
-Goal: expose the number of widgets held by the store.
+Goal: add `WidgetStore.Contains(int id)`, which returns true when the store holds a widget with that id.
 File to change: src/FeatureFlow.Example.Api/WidgetStore.cs
-Test to add: tests/FeatureFlow.Example.Api.UnitTests/WidgetStoreTests.cs
-
-
-## Design
-
-`public int Count()` returns `_widgets.Count`.
-It belongs on WidgetStore because the store owns the collection and is the
-only type that may read it under its lock.
-
+Test to add: in tests/FeatureFlow.Example.Api.UnitTests/WidgetStoreTests.cs, a test that Contains returns true after Add and false for an unknown id.
