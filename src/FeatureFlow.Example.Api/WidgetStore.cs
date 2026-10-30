@@ -44,4 +44,12 @@ public sealed class WidgetStore
             return _widgets.Count;
         }
     }
+
+    public bool Contains(int id)
+    {
+        lock (_gate)
+        {
+            return _widgets.Any(w => w.Id == id);
+        }
+    }
 }
