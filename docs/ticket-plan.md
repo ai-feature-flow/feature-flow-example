@@ -20,8 +20,9 @@ only type that may read it under its lock.
 ## Design: Contains
 
 `public bool Contains(int id)` returns `true` if the store holds a widget
-whose `Id` equals `id`, and `false` otherwise. This method does not exist in
-WidgetStore.cs yet; this section records the planned signature.
+whose `Id` equals `id`, and `false` otherwise. The method is implemented in
+WidgetStore.cs and covered by `Contains_reports_presence_of_id` in
+WidgetStoreTests.cs.
 
 It belongs on WidgetStore because the store owns `_widgets` and `_gate`.
 The lookup must run under `_gate`, as `Find` and `Add` do, so a concurrent
