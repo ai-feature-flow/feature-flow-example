@@ -1,0 +1,3 @@
+Goal: add `WidgetStore.FindByName(string name)`, placed after `Count()`, that returns the first widget whose `Name` equals `name` under an ordinal, case-sensitive comparison (`string.Equals(..., StringComparison.Ordinal)`), or `null` if none matches; and add `GET /widgets/by-name/{name}` that returns 200 with the widget or 404.
+Files to change: `src/FeatureFlow.Example.Api/WidgetStore.cs` (add `FindByName` after `Count()`) and `src/FeatureFlow.Example.Api/Program.cs` (add the `GET /widgets/by-name/{name}` route, returning 200 or 404).
+Tests to add: new `tests/FeatureFlow.Example.Api.UnitTests/WidgetFindByNameTests.cs` with two tests: `Add("alpha")` then `FindByName("alpha")` returns that widget, and `FindByName("ALPHA")` returns `null`.
