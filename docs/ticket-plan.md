@@ -24,4 +24,4 @@ in the store, and `false` otherwise.
 It belongs on WidgetStore because the store owns `_widgets` and `_gate`. The
 check must run under the same lock as `Find` and `Count`, so callers outside
 the class cannot read the collection safely.
-The method does not exist in `WidgetStore.cs` yet. This section specifies it.
+Implemented in `WidgetStore.cs`.

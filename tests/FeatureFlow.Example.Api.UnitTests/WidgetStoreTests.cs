@@ -27,6 +27,16 @@ public sealed class WidgetStoreTests
     }
 
     [Fact]
+    public void Contains_is_false_for_unknown_id_and_true_for_added_widget()
+    {
+        var store = new WidgetStore();
+        var widget = store.Add("alpha");
+
+        Assert.False(store.Contains(404));
+        Assert.True(store.Contains(widget.Id));
+    }
+
+    [Fact]
     public void All_reflects_added_widgets()
     {
         var store = new WidgetStore();
