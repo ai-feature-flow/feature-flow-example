@@ -32,7 +32,7 @@ public sealed class WidgetStore
     {
         lock (_gate)
         {
-            var widget = new Widget(_nextId++, Normalise(name));
+            var widget = new Widget(_nextId++, Normalise(name), DateTimeOffset.UtcNow);
             _widgets.Add(widget);
             return widget;
         }
