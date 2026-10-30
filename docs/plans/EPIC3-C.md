@@ -1,0 +1,3 @@
+Goal: each `Widget` records its creation time. Add `DateTimeOffset CreatedAt` as the third member of the `Widget` record, set to `DateTimeOffset.UtcNow` in the `new Widget(...)` call inside `WidgetStore.Add`.
+Files to change: `src/FeatureFlow.Example.Api/Program.cs` (the `Widget` record declaration, add the `CreatedAt` member) and `src/FeatureFlow.Example.Api/WidgetStore.cs` (`Add` passes `DateTimeOffset.UtcNow`).
+Tests to add: new `tests/FeatureFlow.Example.Api.UnitTests/WidgetCreatedAtTests.cs`, asserting that a widget returned by `WidgetStore.Add` has `CreatedAt` within one second of `DateTimeOffset.UtcNow`.
