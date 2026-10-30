@@ -37,4 +37,14 @@ public sealed class WidgetStoreTests
         Assert.Single(all);
         Assert.Equal("alpha", all[0].Name);
     }
+
+    [Fact]
+    public void Contains_reports_presence_by_id()
+    {
+        var store = new WidgetStore();
+        var widget = store.Add("alpha");
+
+        Assert.False(store.Contains(404));
+        Assert.True(store.Contains(widget.Id));
+    }
 }
