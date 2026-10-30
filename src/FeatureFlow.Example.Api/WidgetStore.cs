@@ -44,4 +44,13 @@ public sealed class WidgetStore
             return _widgets.Count;
         }
     }
+
+    /// <summary>Reports whether the store holds a widget with the given id.</summary>
+    public bool Contains(int id)
+    {
+        lock (_gate)
+        {
+            return _widgets.Any(w => w.Id == id);
+        }
+    }
 }
