@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace FeatureFlow.Example.Api;
 
 /// <summary>
@@ -30,11 +32,14 @@ public sealed class WidgetStore
     {
         lock (_gate)
         {
-            var widget = new Widget(_nextId++, name);
+            var widget = new Widget(_nextId++, Normalise(name));
             _widgets.Add(widget);
             return widget;
         }
     }
+
+    private static string Normalise(string name) =>
+        name.Trim().ToLower(CultureInfo.InvariantCulture);
 
     /// <summary>The number of widgets currently held by the store.</summary>
     public int Count()
