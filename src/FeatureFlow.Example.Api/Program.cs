@@ -13,6 +13,9 @@ app.MapGet("/widgets", (WidgetStore store) => Results.Ok(store.All()));
 app.MapGet("/widgets/{id:int}", (int id, WidgetStore store) =>
     store.Find(id) is { } widget ? Results.Ok(widget) : Results.NotFound());
 
+app.MapGet("/widgets/by-name/{name}", (string name, WidgetStore store) =>
+    store.FindByName(name) is { } widget ? Results.Ok(widget) : Results.NotFound());
+
 app.MapPost("/widgets", (WidgetCreateRequest request, WidgetStore store) =>
 {
     if (string.IsNullOrWhiteSpace(request.Name))

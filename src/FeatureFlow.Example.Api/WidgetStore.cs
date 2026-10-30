@@ -44,4 +44,16 @@ public sealed class WidgetStore
             return _widgets.Count;
         }
     }
+
+    /// <summary>
+    /// Returns the first widget whose name equals <paramref name="name"/> using an
+    /// exact, ordinal (case-sensitive) comparison, or null when none matches.
+    /// </summary>
+    public Widget? FindByName(string name)
+    {
+        lock (_gate)
+        {
+            return _widgets.FirstOrDefault(w => string.Equals(w.Name, name, StringComparison.Ordinal));
+        }
+    }
 }
