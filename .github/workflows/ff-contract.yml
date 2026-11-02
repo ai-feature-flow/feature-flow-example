@@ -1,0 +1,38 @@
+# A test workflow for Feature Flow's CI provider contract (feature-flow-poc, M5). Dispatch only, so it never runs
+# on a push. The run's name shows the idempotency key, so a retried trigger can find the run it started.
+name: ff-contract
+run-name: "ff-contract ${{ inputs.idempotency_key }}"
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: Commit to test
+        required: true
+        type: string
+      idempotency_key:
+        description: Engine idempotency key
+        required: true
+        type: string
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.commit_sha }}
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "9.0.x"
+
+      - name: Run unit tier
+        run: dotnet test tests/FeatureFlow.Example.Api.UnitTests --filter Category=unit --logger trx --results-directory artifacts
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-results
+          path: artifacts/
