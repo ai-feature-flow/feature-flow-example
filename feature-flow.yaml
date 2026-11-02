@@ -1,38 +1,27 @@
-apiVersion: feature-flow/v1
-kind: Repository
+# The repository manifest (Feature Flow docs/07 section 4), read by the engine at each step.
+api_version: feature-flow/v1
+kind: repository
 
+# The SDK the repository needs. The engine does not build its sandbox from this yet, and the
+# current sandbox image has no .NET SDK, so both tiers run in CI and there are no setup commands.
 environment:
   image: mcr.microsoft.com/dotnet/sdk:9.0
   os: linux
   docker: false
 
-setup:
-  commands: [ "dotnet restore" ]
-
-testTiers:
+test_tiers:
   - name: unit
-    commands: [ "dotnet test tests/FeatureFlow.Example.Api.UnitTests --filter Category=unit" ]
-    target: sandbox
+    tags: [unit]
+    command: dotnet test tests/FeatureFlow.Example.Api.UnitTests --filter Category=unit --logger trx --results-directory artifacts
+    result: { format: trx, path: "artifacts/*.trx" }
+    targets: [ci]
+    ci: { job: unit.yml }
 
   - name: integration
-    commands: [ "docker compose -f compose.integration.yaml up --abort-on-container-exit --exit-code-from integration-tests" ]
-    target: ci
-    ci: { instance: github-actions, workflow: integration.yml }
+    tags: [integration]
+    command: docker compose -f compose.integration.yaml up --abort-on-container-exit --exit-code-from integration-tests
+    targets: [ci]
+    ci: { job: integration.yml }
 
-staticAnalysis:
-  analyser: dotnet-format
-  failOn: newIssues
-
-ci:
-  mapping:
-    unit:        { instance: github-actions, workflow: unit.yml }
-    integration: { instance: github-actions, workflow: integration.yml }
-  queueBuilds: true
-
-branches:
-  default: main
-  integrationPrefix: ff/epic/
-  ticketPrefix: ff/ticket/
-
-merge:
-  method: squash
+static_analysis:
+  analyser: none
