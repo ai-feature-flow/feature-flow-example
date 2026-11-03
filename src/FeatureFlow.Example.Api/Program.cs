@@ -20,6 +20,11 @@ app.MapPost("/widgets", (WidgetCreateRequest request, WidgetStore store) =>
         return Results.BadRequest(new { error = "name is required" });
     }
 
+    if (request.Name.Length > WidgetStore.MaxNameLength)
+    {
+        return Results.BadRequest(new { error = $"name must be at most {WidgetStore.MaxNameLength} characters" });
+    }
+
     var widget = store.Add(request.Name);
     return Results.Created($"/widgets/{widget.Id}", widget);
 });
@@ -29,3 +34,6 @@ app.Run();
 public record Widget(int Id, string Name);
 
 public record WidgetCreateRequest(string Name);
+
+// Makes the entry point reachable from the unit tier's WebApplicationFactory<Program>.
+public partial class Program { }

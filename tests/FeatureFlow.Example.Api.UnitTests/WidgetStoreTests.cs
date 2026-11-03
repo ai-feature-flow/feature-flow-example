@@ -37,4 +37,30 @@ public sealed class WidgetStoreTests
         Assert.Single(all);
         Assert.Equal("alpha", all[0].Name);
     }
+
+    [Fact]
+    public void MaxNameLength_is_100()
+    {
+        Assert.Equal(100, WidgetStore.MaxNameLength);
+    }
+
+    [Fact]
+    public void Add_refuses_a_101_character_name()
+    {
+        var store = new WidgetStore();
+        var name = new string('a', 101);
+
+        Assert.Throws<ArgumentException>(() => store.Add(name));
+    }
+
+    [Fact]
+    public void Add_accepts_a_100_character_name()
+    {
+        var store = new WidgetStore();
+        var name = new string('a', 100);
+
+        var widget = store.Add(name);
+
+        Assert.Equal(name, widget.Name);
+    }
 }
