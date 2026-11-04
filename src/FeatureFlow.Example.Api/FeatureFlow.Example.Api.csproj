@@ -7,4 +7,10 @@
     <RootNamespace>FeatureFlow.Example.Api</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <!-- Lets WebApplicationFactory<Program> in the unit tests see the top-level Program class
+         without making it public. -->
+    <InternalsVisibleTo Include="FeatureFlow.Example.Api.UnitTests" />
+  </ItemGroup>
+
 </Project>
