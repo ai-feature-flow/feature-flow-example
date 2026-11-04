@@ -10,6 +10,8 @@ app.MapGet("/health", () => Results.Ok(new { ok = true }));
 
 app.MapGet("/widgets", (WidgetStore store) => Results.Ok(store.All()));
 
+app.MapGet("/widgets/count", (WidgetStore store) => Results.Ok(new { count = store.Count() }));
+
 app.MapGet("/widgets/{id:int}", (int id, WidgetStore store) =>
     store.Find(id) is { } widget ? Results.Ok(widget) : Results.NotFound());
 
