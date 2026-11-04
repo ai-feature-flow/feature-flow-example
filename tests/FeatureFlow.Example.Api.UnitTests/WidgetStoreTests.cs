@@ -42,10 +42,13 @@ public sealed class WidgetStoreTests
     public void Count_reports_held_widgets()
     {
         var store = new WidgetStore();
-        store.Add("alpha");
-        store.Add("beta");
 
+        Assert.Equal(0, store.Count());
+
+        store.Add("alpha");
+        Assert.Equal(1, store.Count());
+
+        store.Add("beta");
         Assert.Equal(2, store.Count());
-        Assert.Equal(0, new WidgetStore().Count());
     }
 }
