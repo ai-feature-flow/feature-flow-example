@@ -37,4 +37,28 @@ public sealed class WidgetStoreTests
         Assert.Single(all);
         Assert.Equal("alpha", all[0].Name);
     }
+
+    [Fact]
+    public void Count_is_zero_for_new_store()
+    {
+        var store = new WidgetStore();
+
+        Assert.Equal(0, store.Count());
+    }
+
+    [Fact]
+    public void Count_matches_All_after_each_add()
+    {
+        var store = new WidgetStore();
+
+        Assert.Equal(store.All().Count, store.Count());
+
+        store.Add("alpha");
+        Assert.Equal(1, store.Count());
+        Assert.Equal(store.All().Count, store.Count());
+
+        store.Add("beta");
+        Assert.Equal(2, store.Count());
+        Assert.Equal(store.All().Count, store.Count());
+    }
 }

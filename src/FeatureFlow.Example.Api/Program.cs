@@ -10,6 +10,8 @@ app.MapGet("/health", () => Results.Ok(new { ok = true }));
 
 app.MapGet("/widgets", (WidgetStore store) => Results.Ok(store.All()));
 
+app.MapGet("/widgets/count", (WidgetStore store) => Results.Ok(new { count = store.Count() }));
+
 app.MapGet("/widgets/{id:int}", (int id, WidgetStore store) =>
     store.Find(id) is { } widget ? Results.Ok(widget) : Results.NotFound());
 
@@ -29,3 +31,6 @@ app.Run();
 public record Widget(int Id, string Name);
 
 public record WidgetCreateRequest(string Name);
+
+// Makes the top-level program visible to WebApplicationFactory<Program> in the unit tests.
+public partial class Program { }
