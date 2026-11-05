@@ -4,7 +4,7 @@ namespace FeatureFlow.Example.Api;
 /// Read-only lookups over a <see cref="WidgetStore"/>. Built only on the store's
 /// public <c>All()</c> snapshot, so the store's lock and state are untouched.
 /// </summary>
-public static class WidgetQueries
+public static class WidgetSearch
 {
     /// <summary>
     /// Returns the earliest-added widget whose name equals <paramref name="name"/>
