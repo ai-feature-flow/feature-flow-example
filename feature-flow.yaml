@@ -2,12 +2,10 @@
 api_version: feature-flow/v1
 kind: repository
 
-# The SDK the repository needs. The engine does not build its sandbox from this yet, and the
-# current sandbox image has no .NET SDK, so both tiers run in CI and there are no setup commands.
-environment:
-  image: mcr.microsoft.com/dotnet/sdk:9.0
-  os: linux
-  docker: false
+# No `environment` section: the sandbox uses the installation's image, which has no .NET SDK,
+# so both tiers run in CI and there are no setup commands. A repository image must be built on
+# the sandbox image's contract and allowed by the installation (Feature Flow docs/07 section 4,
+# LOG 440 to 442).
 
 test_tiers:
   - name: unit
