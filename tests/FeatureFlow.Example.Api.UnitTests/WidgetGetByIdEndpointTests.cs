@@ -24,7 +24,7 @@ public sealed class WidgetGetByIdEndpointTests
         createResponse.EnsureSuccessStatusCode();
 
         var createdWidget = await createResponse.Content.ReadFromJsonAsync<JsonElement>();
-        var widgetId = createdWidget.GetProperty("id").GetInt32();
+        var widgetId = createdWidget.GetProperty("Id").GetInt32();
 
         // Now get the widget by ID
         var response = await client.GetAsync($"/widgets/{widgetId}");
@@ -35,8 +35,8 @@ public sealed class WidgetGetByIdEndpointTests
         using var json = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
         var widget = json.RootElement;
         Assert.Equal(JsonValueKind.Object, widget.ValueKind);
-        Assert.Equal(widgetId, widget.GetProperty("id").GetInt32());
-        Assert.Equal("test widget", widget.GetProperty("name").GetString());
+        Assert.Equal(widgetId, widget.GetProperty("Id").GetInt32());
+        Assert.Equal("test widget", widget.GetProperty("Name").GetString());
     }
 
     [Fact]
