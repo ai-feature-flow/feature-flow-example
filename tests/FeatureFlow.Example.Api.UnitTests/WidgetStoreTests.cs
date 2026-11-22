@@ -39,6 +39,33 @@ public sealed class WidgetStoreTests
     }
 
     [Fact]
+    public void Remove_deletes_present_widget_and_reports_absent_one()
+    {
+        var store = new WidgetStore();
+        var widget = store.Add("alpha");
+        store.Add("beta");
+
+        Assert.True(store.Remove(widget.Id));
+        Assert.Null(store.Find(widget.Id));
+        Assert.Equal(1, store.Count());
+        Assert.False(store.Remove(widget.Id));
+        Assert.False(store.Remove(404));
+    }
+
+    [Fact]
+    public async Task Concurrent_removals_of_the_same_id_succeed_exactly_once()
+    {
+        var store = new WidgetStore();
+        var widget = store.Add("alpha");
+
+        var results = await Task.WhenAll(
+            Enumerable.Range(0, 32).Select(_ => Task.Run(() => store.Remove(widget.Id))));
+
+        Assert.Equal(1, results.Count(r => r));
+        Assert.Equal(0, store.Count());
+    }
+
+    [Fact]
     public void Count_reports_held_widgets()
     {
         var store = new WidgetStore();

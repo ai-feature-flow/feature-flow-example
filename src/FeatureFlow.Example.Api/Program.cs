@@ -26,6 +26,9 @@ app.MapPost("/widgets", (WidgetCreateRequest request, WidgetStore store) =>
     return Results.Created($"/widgets/{widget.Id}", widget);
 });
 
+app.MapDelete("/widgets/{id:int}", (int id, WidgetStore store) =>
+    store.Remove(id) ? Results.NoContent() : Results.NotFound());
+
 app.Run();
 
 public record Widget(int Id, string Name);

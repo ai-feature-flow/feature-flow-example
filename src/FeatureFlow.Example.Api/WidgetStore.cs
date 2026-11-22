@@ -36,6 +36,15 @@ public sealed class WidgetStore
         }
     }
 
+    /// <summary>Removes the widget with the given id; returns whether it existed.</summary>
+    public bool Remove(int id)
+    {
+        lock (_gate)
+        {
+            return _widgets.RemoveAll(w => w.Id == id) > 0;
+        }
+    }
+
     /// <summary>The number of widgets currently held by the store.</summary>
     public int Count()
     {
