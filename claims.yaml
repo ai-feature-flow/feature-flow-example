@@ -1,0 +1,36 @@
+schema: 1
+claims:
+  - criterion: AC-198-001
+    verification: existing_widget
+    tests:
+      - repository: ai-feature-flow/feature-flow-example
+        tier: unit
+        id: FeatureFlow.Example.Api.UnitTests.WidgetGetByIdEndpointTests.GET_widgets_id_returns_200_with_widget_when_it_exists
+        source: { file: tests/FeatureFlow.Example.Api.UnitTests/WidgetGetByIdEndpointTests.cs, symbol: GET_widgets_id_returns_200_with_widget_when_it_exists }
+        change: new
+
+  - criterion: AC-198-002
+    verification: missing_widget
+    tests:
+      - repository: ai-feature-flow/feature-flow-example
+        tier: unit
+        id: FeatureFlow.Example.Api.UnitTests.WidgetGetByIdEndpointTests.GET_widgets_id_returns_404_when_widget_does_not_exist
+        source: { file: tests/FeatureFlow.Example.Api.UnitTests/WidgetGetByIdEndpointTests.cs, symbol: GET_widgets_id_returns_404_when_widget_does_not_exist }
+        change: new
+
+  - criterion: AC-198-003
+    verification: test_coverage
+    tests:
+      - repository: ai-feature-flow/feature-flow-example
+        tier: unit
+        id: FeatureFlow.Example.Api.UnitTests.WidgetGetByIdEndpointTests.GET_widgets_id_returns_200_with_widget_when_it_exists
+        source: { file: tests/FeatureFlow.Example.Api.UnitTests/WidgetGetByIdEndpointTests.cs, symbol: GET_widgets_id_returns_200_with_widget_when_it_exists }
+        change: new
+
+      - repository: ai-feature-flow/feature-flow-example
+        tier: unit
+        id: FeatureFlow.Example.Api.UnitTests.WidgetGetByIdEndpointTests.GET_widgets_id_returns_404_when_widget_does_not_exist
+        source: { file: tests/FeatureFlow.Example.Api.UnitTests/WidgetGetByIdEndpointTests.cs, symbol: GET_widgets_id_returns_404_when_widget_does_not_exist }
+        change: new
+
+test_impacts: []
