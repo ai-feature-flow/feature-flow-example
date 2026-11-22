@@ -23,7 +23,7 @@ public sealed class WidgetGetByIdEndpointTests
         var createResponse = await client.PostAsJsonAsync("/widgets", new { name = "test widget" });
         createResponse.EnsureSuccessStatusCode();
 
-        var createdWidget = await createResponse.Content.ReadAsAsync<JsonElement>();
+        var createdWidget = await createResponse.Content.ReadFromJsonAsync<JsonElement>();
         var widgetId = createdWidget.GetProperty("id").GetInt32();
 
         // Now get the widget by ID
